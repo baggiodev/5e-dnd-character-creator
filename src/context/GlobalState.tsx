@@ -1,18 +1,21 @@
 import React, { createContext, useReducer } from 'react';
+import { Pokedex } from '../interfaces';
 import { AppReducer } from './AppReducer';
 
 // interfaces 
 export interface IGlobalContext extends IState {
-    changeClass(chosenClass: string): void;
-    changeHitPoints(hitPoints: number): void;
-    changeLevel(level: number): void; 
-    changeSubClass(subClass: string): void;
+    setClass(chosenClass: string): void;
+    setHitPoints(hitPoints: number): void;
+    setLevel(level: number): void; 
+    setSubClass(subClass: string): void;
+    setClassInfo(classInfo: any): void;
 }
 export interface IState {
     chosenClass: string;
     level: number;
     hitPoints: number | null;
     subClass: string;
+    classInfo: Partial<Pokedex>;
 }
 export interface IReactChild {
     children: React.ReactNode
@@ -24,6 +27,7 @@ const initialState: IState = {
     hitPoints: null,
     level: 0,
     subClass: "",
+    classInfo: {},
 };
 
 // Create Context
@@ -34,28 +38,34 @@ export const GlobalProvider = ({ children }: IReactChild) => {
     const [state, dispatch] = useReducer(AppReducer, initialState);
   
     // Actions
-    function changeClass(chosenClass: string) {
+    function setClass(chosenClass: string) {
       dispatch({
-        type: "CHANGE_CHOSEN_CLASS",
+        type: "SET_CHOSEN_CLASS",
         payload: chosenClass
       });
     }
-    function changeHitPoints(hitPoints: number) {
+    function setHitPoints(hitPoints: number) {
         dispatch({
-          type: "CHANGE_HIT_POINTS",
+          type: "SET_HIT_POINTS",
           payload: hitPoints
         });
     }
-    function changeLevel(level: number) {
+    function setLevel(level: number) {
         dispatch({
-            type: "CHANGE_LEVEL",
+            type: "SET_LEVEL",
             payload: level
         });
     }
-    function changeSubClass(subClass: string) {
+    function setSubClass(subClass: string) {
         dispatch({
-            type: "CHANGE_SUB_CLASS",
+            type: "SET_SUB_CLASS",
             payload: subClass
+        });
+    }
+    function setClassInfo(classInfo: any) {
+        dispatch({
+            type: "SET_CLASS_INFO",
+            payload: classInfo
         });
     }
 
@@ -65,10 +75,12 @@ export const GlobalProvider = ({ children }: IReactChild) => {
         hitPoints: state.hitPoints,
         level: state.level,
         subClass: state.subClass,
-        changeClass,
-        changeHitPoints,
-        changeLevel,
-        changeSubClass,
+        classInfo: state.classInfo,
+        setClass,
+        setHitPoints,
+        setLevel,
+        setSubClass,
+        setClassInfo,
     }}>
       {children}
     </GlobalContext.Provider>);

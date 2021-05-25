@@ -24,7 +24,6 @@ export const getClasses = async (): Promise<any[]> => {
 };
 
 export const getClass = async (whichClass: string): Promise<any> => {
-  console.log(whichClass);
   switch (whichClass.toUpperCase()) {
     case "ARTIFICER":
       const artificerPromise: Promise<any> = new Promise((resolve, reject) => {
@@ -117,5 +116,7 @@ export const getClass = async (whichClass: string): Promise<any> => {
         }, 300);
       });
       return wizardPromise;
-  }
+    default:
+        return {};
+    }
 };
